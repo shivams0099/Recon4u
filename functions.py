@@ -3,6 +3,7 @@ import sys
 from bs4 import BeautifulSoup
 import requests
 import socket
+import json
 
 
 #color codes
@@ -31,7 +32,7 @@ def banner():
     ▒██▀▀█▄  ▒██  ▄ ▒██▒ ▄██▒▒██   ██ ▓██▒  ▐▌██▒%s▒░░░░██░%s▓██  ░██░ %s+ CS-73                      +%s
     ░██▓ ▒██▒░█████▒▒ ████▀ ░░ █████▒░▒██░   ███░%s    ▒██░%s▒▓█████▓  %s+ Reconnaisance Tool         +%s
     ░ ▒▓ ░▒▓░░░ ▒░ ░░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒░   ▒ ▒ %s    ▒░▓ %s░▒▓▒ ▒ ▒  %s+                            +%s
-      ░▒ ░ ▒░ ░ ░  ░  ░  ▒%sCoded by:@BadAssOne%s░ ▒░    %s ░░%s ░░▒░ ░ ░  %s+ CSE, SRMGPC, Lucknow       +%s
+      ░▒ ░ ▒░ ░ ░  ░  ░  ▒%sCoded by:@shivams0099%s░ ▒░  %s ░░%s ░░▒░ ░ ░  %s+ CSE, SRMGPC, Lucknow       +%s
       ░░   ░    ░   ░        ░ ░ ░ ▒     ░   ░  ░░    %s ░ %s ░░░ ░ ░  %s+                            +%s
        ░        ░  ░░ ░          ░ ░            ░%s      ░ %s   ░      %s++++++++++++++++++++++++++++++%s
     ''' % (red, cyan, red, green, red, cyan, red, green, red, yellow, red, cyan, red, green, red, cyan, red,
@@ -63,7 +64,7 @@ def menu():
         [9] Reverse IP Domain Checker
         [10] MX Lookup
         [11] Platform Identifier
-        [12] Bucket Finder
+        [12] HTTP Methods
         [A] Scan For Everything
         [B] Scan Another Website
         [U] Check For Update
@@ -149,14 +150,20 @@ def subdomain_enum(url):
     print(soup)
 
 #reverse ip lookup function
-#def reverseip_lookup(url):
-#    print("REVERSE IP LOOKUP\n=================")
-#    reverseip=requests.get("https://api.hackertarget.com/reverseiplookup/?q=" + url)
-#    reverseip_data=reverseip.content
-#    soup=BeautifulSoup(reverseip_data, 'html.parser')
-#    print(soup)
-#    print(str(soup).count("\n")+1)
-#reverseip_lookup("officialgram.cf")
+def reverseip(url):
+    reverse_ip=requests.post("https://domains.yougetsignal.com/domains.php", data={'remoteAddress':url})
+    reverseips=reverse_ip.content
+    soup=BeautifulSoup(reverseips, 'html.parser')
+    dic=json.loads(str(soup))
+    values=dic["domainArray"]
+    print("Reverse IP Domain Check")
+    print("=========================\n")
+    for i in values:
+        t=str(i)
+        t=t.split(",")
+        t=str(t[0])
+        print(t[2:len(t)-1])
+    print('\n=========================')
 
 #whois lookup function
 def whois(url):
@@ -169,4 +176,15 @@ def whois(url):
     print("=========================Start of the content=================================")
     print(temp[0])
     print("==========================End of the content==================================")
+
+#HTTP Methods Function
+def http_methods(urlt,url):
+    text=requests.options(urlt+url)
+    print("Allowed HTTP Methods\n====================")
+    if("Allow" in text.headers):
+        print(text.headers["Allow"])
+    else:
+        print("Could not detect")
+    print('\n')
+
 

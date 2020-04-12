@@ -1,6 +1,7 @@
 import functions as f
 import requests
 import os
+import json
 
 while (1):
     f.banner()
@@ -51,7 +52,7 @@ while (1):
                 f.subdomain_enum(url)
             elif (ch == '9'):
                 print("[+] Scanning Begins..... \n[i] Scanning Site: " + urlt + url + "\n[S] Scan Type: Reverse IP Domain Checker")
-                print("Coming Soon.....")
+                f.reverseip(url)
             elif (ch == '10'):
                 print("[+] Scanning Begins..... \n[i] Scanning Site: " + urlt + url + "\n[S] Scan Type: MX Lookup")
                 print("Coming Soon.....")
@@ -60,7 +61,7 @@ while (1):
                 print("Coming Soon")
             elif (ch == '12'):
                 print("[+] Scanning Begins..... \n[i] Scanning Site: " + urlt + url + "\n[S] Scan Type: Bucket Finder")
-                print("Coming Soon....")
+                f.http_methods(urlt,url)
             elif (ch == 'A' or ch == 'a'):
                 print("[+] Scanning Begins..... \n[i] Scanning Site: " + urlt + url + "\n")
                 f.basic_recon(urlt,url)
@@ -79,6 +80,10 @@ while (1):
                 print("\n")
                 f.subdomain_enum(url)
                 print("\n")
+                f.reverseip(url)
+                print("\n")
+                f.http_methods(urlt,url)
+                print('\n')
             elif (ch == "q" or ch == 'Q'):
                 break
             elif (ch == "b" or ch == "B"):
